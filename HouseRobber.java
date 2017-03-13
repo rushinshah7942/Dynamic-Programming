@@ -29,7 +29,7 @@ public class Solution {
     }
 }
 
-// dp like O(n) time and o(1) SPACE solution
+// dp like O(n) time and o(n) SPACE solution
 
 public int rob(int[] num) {
     int[][] dp = new int[num.length + 1][2];

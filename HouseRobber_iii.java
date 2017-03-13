@@ -47,13 +47,11 @@ public int rob(TreeNode root) {
         val += rob(root.right.left) + rob(root.right.right); // 2 sub-trees
     }
     
-    return Math.max(val + root.val, rob(root.left) + rob(root.right));
+    return Math.max( val + root.val ,  rob(root.left) + rob(root.right) );
 	// val + root.val (if root is also considered)
 	// rob(root.left) + rob(root.right) (root is not considered)
 	
 }
-
-
 
 /*
 We only considered the aspect of "optimal substructure", but think little about the possibilities of overlapping of the subproblems. For example, to obtain rob(root), we need rob(root.left), rob(root.right), rob(root.left.left), rob(root.left.right), rob(root.right.left), rob(root.right.right); but to get rob(root.left), we also need rob(root.left.left), rob(root.left.right), similarly for rob(root.right). The naive solution above computed these subproblems repeatedly, which resulted in bad time performance. Now if you recall the two conditions for dynamic programming: "optimal substructure" + "overlapping of subproblems", we actually have a DP problem. A naive way to implement DP here is to use a hash map to record the results for visited subtrees.
@@ -68,21 +66,23 @@ private int robSub(TreeNode root, Map<TreeNode, Integer> map) {
     if (root == null) 
 		return 0;
    
+	// just return from here, without computing val for this node
 	if (map.containsKey(root)) 
 		return map.get(root);
     
     int val = 0;
     
     if (root.left != null) {
-        val += robSub(root.left.left, map) + robSub(root.left.right, map);
+        val += robSub(root.left.left, map) + robSub(root.left.right, map); // 2 sub-trees
     }
     
     if (root.right != null) {
-        val += robSub(root.right.left, map) + robSub(root.right.right, map);
+        val += robSub(root.right.left, map) + robSub(root.right.right, map); // 2 sub-trees
     }
     
-    val = Math.max(val + root.val, robSub(root.left, map) + robSub(root.right, map));
-    map.put(root, val);
+    val = Math.max( val + root.val, robSub(root.left, map) + robSub(root.right, map));
+    
+	map.put(root, val);
     
     return val;
 }

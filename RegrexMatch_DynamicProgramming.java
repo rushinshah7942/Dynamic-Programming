@@ -31,40 +31,39 @@ public boolean isMatch(String s, String p)
         return false;
     }
 		
-		boolean T[][] = new boolean[s.length + 1][p.length + 1];
+	boolean T[][] = new boolean[s.length + 1][p.length + 1];
 
-        T[0][0] = true;
-        
-		//Deals with patterns like a* or a*b* or a*b*c*
-        for (int i = 1; i < T[0].length; i++) 
+	T[0][0] = true;
+	
+	//Deals with patterns like a* or a*b* or a*b*c*
+	for (int i = 1; i < T[0].length; i++) 
+	{
+		if (p[i-1] == '*') 
 		{
-            if (p[i-1] == '*') 
-			{
-                T[0][i] = T[0][i - 2];
-            }
-        }
+			T[0][i] = T[0][i - 2];
+		}
+	}
 
-        for (int i = 1; i < T.length; i++) 
+	for (int i = 1; i < T.length; i++) 
+	{
+		for (int j = 1; j < T[0].length; j++) 
 		{
-            for (int j = 1; j < T[0].length; j++) 
+			if (p[j - 1] == '.' || p[j - 1] == s[i - 1]) {
+				T[i][j] = T[i-1][j-1];
+			} 
+			else if (p[j - 1] == '*')  
 			{
-                if (p[j - 1] == '.' || p[j - 1] == s[i - 1]) 
+				T[i][j] = T[i][j - 2];
+				if (p[j-2] == '.' || p[j - 2] == s[i - 1]) 
 				{
-                    T[i][j] = T[i-1][j-1];
-                } 
-				else if (p[j - 1] == '*')  
-				{
-                    T[i][j] = T[i][j - 2];
-                    if (p[j-2] == '.' || p[j - 2] == s[i - 1]) 
-					{
-                        T[i][j] = T[i][j] | T[i - 1][j];
-                    }
-                } 
-				else 
-				{
-                    T[i][j] = false;
-                }
-            }
-        }
-        return T[s.length][p.length];
+					T[i][j] = T[i][j] | T[i - 1][j];
+				}
+			} 
+			else 
+			{
+				T[i][j] = false;
+			}
+		}
+	}
+	return T[s.length][p.length];
 }
