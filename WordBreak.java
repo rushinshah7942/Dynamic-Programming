@@ -40,7 +40,7 @@ public class Solution {
                 }
             }
         }
-        
+		// time complexity : O(n^3), due to the reason that subString operation is of O(n) time	
         return f[s.length()];
     }
 }
@@ -50,7 +50,8 @@ public class Solution {
 // then search in Trie
 
 public class Solution {
-    public class TrieNode {
+    
+	public class TrieNode {
         boolean isWord;
         TrieNode[] c;
         
@@ -71,8 +72,12 @@ public class Solution {
     }
     
     public boolean wordBreak(String s, Set<String> wordDict) {
-        TrieNode t = new TrieNode(), cur;
-        for (String i : wordDict) addWord(t, i);
+        TrieNode t = new TrieNode();
+		TrieNode cur;
+		
+        for (String i : wordDict) 
+			addWord(t, i);
+		
         char[] str = s.toCharArray();
         int len = str.length;
         boolean[] f = new boolean[len + 1];
